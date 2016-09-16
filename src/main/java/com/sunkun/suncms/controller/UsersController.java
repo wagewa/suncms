@@ -42,6 +42,12 @@ public class UsersController
         System.out.println("用户列表++++++++++++++++++++++++++++++++++++++");
         return "users/list";
     }
+    
+    @RequestMapping("adminUserList")
+    public String adminUserList(){
+    	
+    	return "admin/users/list";
+    }
 
     /**
      * 
@@ -58,6 +64,8 @@ public class UsersController
         return "" + i;
     }
 
+    
+    
     /**
      * 
       * @throws Exception 
