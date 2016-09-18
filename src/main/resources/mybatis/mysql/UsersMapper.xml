@@ -83,7 +83,7 @@
 		SELECT COUNT(id) FROM sun_users 
 		<where>
 			<if test="userName != null">
-				userName LIKE #{userName,jdbcType=VARCHAR}
+				userName like CONCAT('%',#{userName},'%') 
 			</if>
 		</where>
 	</select>
@@ -94,7 +94,7 @@
 		FROM sun_users 
 		<where>
 			<if test="userName != null">
-				userName LIKE #{userName,jdbcType=VARCHAR}
+				userName like CONCAT('%',#{userName},'%') 
 			</if>
 		</where>
 		<if test="sort != null"> 
