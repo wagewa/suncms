@@ -40,7 +40,7 @@ public class UsersServiceImpl implements IUsersService
         PageResults<UsersBean> results = new PageResults<UsersBean>();
         results.setTotal(userDao.getAllCount(map));
         List<UsersBean> list = userDao.getAllList(map);
-        results.setList(list);
+        results.setRows(list);
         return results;
     }
 

@@ -44,8 +44,9 @@ public class UsersController
     }
     
     @RequestMapping("adminUserList")
-    public String adminUserList(){
-    	
+    public String adminUserList() throws Exception{
+    
+        System.out.println("=======================================");
     	return "admin/users/list";
     }
 
@@ -75,11 +76,13 @@ public class UsersController
      */
     @ResponseBody
     @RequestMapping("getList")
-    public PageResults getList(int page , int pageSize) throws Exception
+    public PageResults getList(int page , int rows,String sort,String order) throws Exception
     {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("pageIndex", (page * pageSize) - pageSize);
-        map.put("pageSize", pageSize);
+        map.put("pageIndex", (page * rows) - rows);
+        map.put("pageSize", rows);
+        map.put("sort", sort);
+        map.put("order", order);
         PageResults<UsersBean> results = usersService.getList(map);
         System.out.println(JSONObject.toJSONString(results) + "======================================");
         return results;

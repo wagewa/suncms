@@ -21,7 +21,7 @@ public class PageResults<T>
     /**
      * 数据列表
      */
-    private List<T> list;
+    private List<T> rows;
 
     /**
      * 消息
@@ -38,14 +38,14 @@ public class PageResults<T>
         this.total = total;
     }
 
-    public List<T> getList()
+    public List<T> getRows()
     {
-        return list;
+        return rows;
     }
 
-    public void setList(List<T> list)
+    public void setRows(List<T> rows)
     {
-        this.list = list;
+        this.rows = rows;
     }
 
     public String getMessage()
