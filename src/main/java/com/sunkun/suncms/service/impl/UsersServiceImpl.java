@@ -44,4 +44,10 @@ public class UsersServiceImpl implements IUsersService
         return results;
     }
 
+    @Override
+    public int delUsers(List<Integer> list) throws Exception
+    {
+        return userDao.deleteByIds(list);
+    }
+
 }

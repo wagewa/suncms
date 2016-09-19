@@ -3,6 +3,9 @@ package com.sunkun.suncms.beans;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+
 /**
  * 
   * @ClassName: UsersBean
@@ -37,6 +40,7 @@ public class UsersBean
     /**
      * 出生日期
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     /**

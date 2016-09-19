@@ -60,6 +60,8 @@ public interface IBaseDao
         @author sunkun
      */
     int deleteByIds(List<Integer> list) throws Exception;
+    
+    int deleteByIds(String ids) throws Exception;
 
     /**
      * 

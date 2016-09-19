@@ -1,6 +1,7 @@
 
 package com.sunkun.suncms.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.sunkun.suncms.beans.PageResults;
@@ -30,4 +31,6 @@ public interface IUsersService
       * @author sunkun
      */
     PageResults<UsersBean> getList(Map<String, Object> map) throws Exception;
+
+    int delUsers(List<Integer> list) throws Exception;
 }

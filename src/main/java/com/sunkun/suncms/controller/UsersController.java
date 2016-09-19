@@ -1,7 +1,9 @@
 
 package com.sunkun.suncms.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -29,7 +31,7 @@ public class UsersController
 
     @Resource
     private IUsersService usersService;
-    
+
     /**
      * 
       * @Description: TODO
@@ -42,12 +44,13 @@ public class UsersController
         System.out.println("用户列表++++++++++++++++++++++++++++++++++++++");
         return "users/list";
     }
-    
+
     @RequestMapping("adminUserList")
-    public String adminUserList() throws Exception{
-    
+    public String adminUserList() throws Exception
+    {
+
         System.out.println("=======================================");
-    	return "admin/users/list";
+        return "admin/users/list";
     }
 
     /**
@@ -58,15 +61,27 @@ public class UsersController
      */
     @ResponseBody
     @RequestMapping("addUser")
-    public String addUser(UsersBean bean) throws Exception
+    public Integer addUser(UsersBean bean) throws Exception
     {
         int i = usersService.addUser(bean);
         System.out.println(i + "=========================================================");
-        return "" + i;
+        return i;
     }
 
-    
-    
+    @ResponseBody
+    @RequestMapping("delUsers")
+    public Integer delUsers(String ids) throws Exception
+    {
+        String[] strs = ids.split(",");
+        List<Integer> list = new ArrayList<Integer>();
+        for (String s : strs)
+        {
+            list.add(Integer.parseInt(s));
+        }
+        int i = usersService.delUsers(list);
+        return i;
+    }
+
     /**
      * 
       * @throws Exception 
@@ -76,7 +91,7 @@ public class UsersController
      */
     @ResponseBody
     @RequestMapping("getList")
-    public PageResults getList(int page , int rows,String sort,String order,UsersBean bean) throws Exception
+    public PageResults getList(int page , int rows , String sort , String order , UsersBean bean) throws Exception
     {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("pageIndex", (page * rows) - rows);
