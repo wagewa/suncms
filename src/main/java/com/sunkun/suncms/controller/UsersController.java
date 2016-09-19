@@ -76,13 +76,14 @@ public class UsersController
      */
     @ResponseBody
     @RequestMapping("getList")
-    public PageResults getList(int page , int rows,String sort,String order) throws Exception
+    public PageResults getList(int page , int rows,String sort,String order,UsersBean bean) throws Exception
     {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("pageIndex", (page * rows) - rows);
         map.put("pageSize", rows);
         map.put("sort", sort);
         map.put("order", order);
+        map.put("userName", bean.getUserName());
         PageResults<UsersBean> results = usersService.getList(map);
         System.out.println(JSONObject.toJSONString(results) + "======================================");
         return results;
