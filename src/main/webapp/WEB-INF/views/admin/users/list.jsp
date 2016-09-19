@@ -92,7 +92,7 @@ $(function(){
 	      }
 	});
 	$("#um-tabupdate").click(function(){
-		$("#win").window("open");
+		edit();
 	});
 	$("#um-tabdel").click(function(){ 
 		delUsers();
@@ -121,6 +121,15 @@ function clearForm(){
 }
 
 function edit(){
+	var rows = userList.datagrid("getSelections");
+	if(rows.length==0){
+		$.messager.alert("警告","请选择需要修改的记录!");
+		return false;
+	}else if(rows.length>1){
+		$.messager.alert("警告","只能修改一条数据!");
+	}
+	$("#userForm").find("input[name='userName']").val(rows[0].userName);
+	$("#userForm").find("input[name='email']").val(rows[0].email);
 	$("#win").window("open");
 }
 
@@ -230,7 +239,7 @@ function delUsers(){
 	    	</tr>
 	    	<tr>
 	    		<td style="text-align: right;">生日:</td>
-	    		<td style="text-align: left;"><input type="text" name="birthday" class="easyui-datebox" /></td>
+	    		<td style="text-align: left;"><input type="text" editable="false" name="birthday" class="easyui-datebox" /></td>
 	    	</tr>
 	    	<tr>
 	    		<td style="text-align: right;">是否生效:</td>
