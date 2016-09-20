@@ -33,4 +33,6 @@ public interface IUsersService
     PageResults<UsersBean> getList(Map<String, Object> map) throws Exception;
 
     int delUsers(List<Integer> list) throws Exception;
+    
+    int editUsers(UsersBean bean) throws Exception;
 }

@@ -17,6 +17,7 @@
 	var userList;
 $(function(){
 	openUserForm();
+	openUserEditForm(); 
 	userList = $("#userList").datagrid({ 
 		url:'${pageContext.request.contextPath}/users/getList',
 		iconCls : 'icon-save',
@@ -49,7 +50,13 @@ $(function(){
 					  }
 	        	  }
 	           },
-	          {field:'birthday',title:'生日',width:100,sortable:true}
+	          {field:'birthday',title:'生日',width:100,sortable:true,formatter : function(value,row,index){
+	        	  if(value!=null){
+	        		  return sk.timeStamp2StringDate(value); 
+	        	  }else{
+	        		  return "";
+	        	  }
+	          }}
 	      ]],
 	      toolbar:[{
 	    	  text : '新增',
@@ -107,7 +114,17 @@ function searchForm(){
 
 function openUserForm(){
 	 $("#win").window({
-		 title: '用户信息',
+		 title: '新增用户',
+	     modal: true,
+	     shadow: true,
+	     closed: true,
+	     resizable:false
+	 });
+}
+
+function openUserEditForm(){
+	 $("#winEdit").window({
+		 title: '编辑用户',
 	     modal: true,
 	     shadow: true,
 	     closed: true,
@@ -128,32 +145,63 @@ function edit(){
 	}else if(rows.length>1){
 		$.messager.alert("警告","只能修改一条数据!");
 	}
-	$("#userForm").find("input[name='userName']").val(rows[0].userName);
-	$("#userForm").find("input[name='email']").val(rows[0].email);
-	$("#win").window("open");
+	$("#userEditForm").find("input[name='userName']").val(rows[0].userName);
+	$("#userEditForm").find("input[name='email']").val(rows[0].email);
+	$("#editBirthday").datebox('setValue', sk.timeStamp2StringDate(rows[0].birthday));
+	$("#userEditForm").find("input[name='id']").val(rows[0].id);
+	$("#userEditForm").find("select[name='sex']").find("option[value='"+rows[0].sex+"']").attr("selected",true);
+	$("#userEditForm").find("input[name='isValidated']").each(function(i,e){
+		if($(e).val() == rows[0].isValidated){
+			$(e).attr("checked","checked"); 
+		}
+	});
+	$("#winEdit").window("open"); 
 }
 
 function saveUser(){
-	$("#userForm").form('submit', {    
-	    url:"${pageContext.request.contextPath}/users/addUser",    
-	    onSubmit: function(param){    
-	        // do some check    
-	        // return false to prevent submit;
-	        if(param.password!=param.rpassword){
-	        	$.messager.alert("警告","两次密码不一致");
-	        	return false;
-	        }
-	    },    
-	    success:function(data){    
-	        if(data>0){
-	        	$.messager.alert("提示","新增用户成功!");
-	        	$("#win").window("close");
-	        	userList.datagrid('load',{});
-	        }else{
-	        	$.messager.alert("警告","系统忙，请稍后再试!");
-	        }
-	    }    
-	});  
+	if($("#userForm").form("validate")){ 
+		$("#userForm").form('submit', {    
+		    url:"${pageContext.request.contextPath}/users/addUser",    
+		    onSubmit: function(param){    
+		        if($("#userForm").find("input[name='password']").val()!=$("#userForm").find("input[name='rpassword']").val()){
+		        	$.messager.alert("警告","两次密码不一致");
+		        	return false;
+		        }
+		    },    
+		    success:function(data){    
+		        if(data>0){
+		        	$.messager.alert("提示","新增用户成功!");
+		        	$("#win").window("close");
+		        	userList.datagrid('load',{});
+		        }else{
+		        	$.messager.alert("警告","系统忙，请稍后再试!");
+		        }
+		    }    
+		});  
+	}
+}
+
+function editUser(){
+	if($("#userEditForm").form("validate")){ 
+		$("#userEditForm").form('submit', {    
+		    url:"${pageContext.request.contextPath}/users/addUser",    
+		    onSubmit: function(){    
+		        if($("#userEditForm").find("input[name='password']").val()!=$("#userEditForm").find("input[name='rpassword']").val()){
+		        	$.messager.alert("警告","两次密码不一致");
+		        	return false;
+		        }
+		    },    
+		    success:function(data){    
+		        if(data>0){
+		        	$.messager.alert("提示","修改用户成功!");
+		        	$("#win").window("close");
+		        	userList.datagrid('load',{});
+		        }else{
+		        	$.messager.alert("警告","系统忙，请稍后再试!");
+		        }
+		    }    
+		});  
+	}
 }
 
 function delUsers(){
@@ -247,6 +295,49 @@ function delUsers(){
 	    	</tr>
 	    	<tr style="text-align: center;">
 	    		<td colspan="2"><a href="javascript:void(0)" style="width: 50px;" onclick="saveUser();" class="easyui-linkbutton">确定</a> <a style="width: 50px;" href="javascript:void(0)" class="easyui-linkbutton">清空</a></td>
+	    	</tr>
+    	</table>
+    </form>
+</div> 
+
+
+<div id="winEdit" class="easyui-window"  style="width:600px;height:400px"   
+        data-options="iconCls:'icon-save',modal:true,minimizable:false">   
+    <form method="post" id="userEditForm">
+    	<table style="width: 550px; margin-left: 30px;">
+	    	<tr>
+	    		<td style="text-align: right;">用户名:</td>
+	    		<td style="text-align: left;"><input name="userName" type="text" class="easyui-validatebox" data-options="required:true" /></td>
+	    	</tr>
+	    	<tr>
+	    		<td style="text-align: right;">密 码:</td>
+	    		<td style="text-align: left;"><input name="password" type="password" id="password" class="easyui-validatebox"  /></td>
+	    	</tr>
+	    	<tr>
+	    		<td style="text-align: right;">确认密码:</td>
+	    		<td style="text-align: left;"><input name="rpassword" type="password" class="easyui-validatebox"  /></td>
+	    	</tr>
+	    	<tr>
+	    		<td style="text-align: right;">邮 箱:</td>
+	    		<td style="text-align: left;"><input name="email" type="text" class="easyui-validatebox" data-options="required:true,validType:'email'" /></td>
+	    	</tr>
+	    	<tr>
+	    		<td style="text-align: right;">性别:</td>
+	    		<td style="text-align: left;"><select name="sex"><option value="0">保密</option><option value="1">男</option><option value="2">女</option></select></td>
+	    	</tr>
+	    	<tr>
+	    		<td style="text-align: right;">生日:</td>
+	    		<td style="text-align: left;"><input type="text" editable="false" id="editBirthday" name="birthday" class="easyui-datebox" /></td>
+	    	</tr>
+	    	<tr>
+	    		<td style="text-align: right;">是否生效:</td>
+	    		<td style="text-align: left;"><input type="radio" name="isValidated" value="1" checked="checked" />是 <input type="radio" name="isValidated" value="0" />否</td>
+	    	</tr>
+	    	<tr style="text-align: center;">
+	    		<td colspan="2"> 
+	    			<input type="hidden" name="id" value="" />
+	    			<a href="javascript:void(0)" style="width: 50px;" onclick="editUser();" class="easyui-linkbutton">确定</a> <a style="width: 50px;" href="javascript:void(0)" class="easyui-linkbutton">清空</a>
+	    		</td>
 	    	</tr>
     	</table>
     </form>

@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sunkun.suncms.dao.IUsersDao">
-	<resultMap id="BaseResultMap" type="com.sunkun.suncms.beans.UsersBean">
+	<resultMap id="BaseResultMap" type="com.sunkun.suncms.beans.ModelBean">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="email" property="email" jdbcType="VARCHAR" />
-		<result column="userName" property="userName" jdbcType="VARCHAR" />
-		<result column="password" property="password" jdbcType="VARCHAR" />
-		<result column="sex" property="sex" jdbcType="INTEGER" />
-		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
-		<result column="rankPoints" property="rankPoints" jdbcType="INTEGER" />
-		<result column="lastTime" property="lastTime" jdbcType="TIMESTAMP" />
-		<result column="lastIp" property="lastIp" jdbcType="VARCHAR" />
-		<result column="alias" property="alias" jdbcType="VARCHAR" />
-		<result column="officePhone" property="officePhone" jdbcType="VARCHAR" />
-		<result column="isValidated" property="isValidated" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="tableName" property="tableName" jdbcType="VARCHAR" />
+		<result column="listFields" property="listFields" jdbcType="VARCHAR" />
+		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		id, email, userName, password, sex, birthday, rankPoints,
-		lastTime, lastIp, alias, officePhone, isValidated
+		id, name, tableName, listFields, introduce, createTime
 	</sql>
 	
-	<insert id="insertSelective"  parameterType="com.sunkun.suncms.beans.UsersBean">
-		INSERT INTO sk_users(email, userName, password, sex, birthday, rankPoints,
+	<insert id="insertSelective"  parameterType="com.sunkun.suncms.beans.ModelBean">
+		INSERT INTO sk_model(email, userName, password, sex, birthday, rankPoints,
 		lastTime, lastIp, alias, officePhone, 
 		isValidated) values(
 			#{email},
@@ -39,8 +32,8 @@
 		)
 	</insert>
 	
-	<update id="updateByPrimaryKeySelective"  parameterType="com.sunkun.suncms.beans.UsersBean">
-		UPDATE sk_users u SET 
+	<update id="updateByPrimaryKeySelective"  parameterType="com.sunkun.suncms.beans.ModelBean">
+		UPDATE sk_model u SET 
 			u.email=#{email},
 			u.userName=#{userName},
 			u.password=#{password},
@@ -58,7 +51,7 @@
 	<!--
 		<delete id="deleteByIds" parameterType="java.util.List">
 			<foreach close="" collection="list" index="index" item="item" open="" separator=";">
-				DELETE FROM sk_users
+				DELETE FROM sk_model
 				WHERE id=#{item.id,jdbcType=INTEGER}
 			</foreach>
 		</delete>
@@ -66,7 +59,7 @@
 	
 	
 	<delete id="deleteByIds" parameterType="java.util.List">
-			DELETE FROM sk_users WHERE id IN
+			DELETE FROM sk_model WHERE id IN
 		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
     			#{item}  
 		</foreach>
@@ -75,12 +68,12 @@
 	
 	
 	<delete id="deleteByPrimaryKey" parameterType="int">
-		DELETE FROM sk_users
+		DELETE FROM sk_model
 		WHERE id=#{id,jdbcType=INTEGER}
 	</delete>
 	
 	<select id="getAllCount" resultType="int" parameterType="map">
-		SELECT COUNT(id) FROM sk_users 
+		SELECT COUNT(id) FROM sk_model 
 		<where>
 			<if test="userName != null">
 				userName like CONCAT('%',#{userName},'%') 
@@ -91,7 +84,7 @@
 	<select id="getAllList" resultMap="BaseResultMap" parameterType="map">
 		SELECT 
 		<include refid="Base_Column_List" />
-		FROM sk_users 
+		FROM sk_model 
 		<where>
 			<if test="userName != null">
 				userName like CONCAT('%',#{userName},'%') 
@@ -108,7 +101,7 @@
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="int">
 		SELECT 
 		<include refid="Base_Column_List"></include>
-		FROM sk_users 
+		FROM sk_model 
 		WHERE id=#{id,jdbcType=INTEGER}
 	</select>
 	

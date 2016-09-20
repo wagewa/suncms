@@ -50,4 +50,10 @@ public class UsersServiceImpl implements IUsersService
         return userDao.deleteByIds(list);
     }
 
+    @Override
+    public int editUsers(UsersBean bean) throws Exception
+    {
+        return userDao.updateByPrimaryKeySelective(bean);
+    }
+
 }

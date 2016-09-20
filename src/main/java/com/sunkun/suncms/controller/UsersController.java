@@ -63,8 +63,15 @@ public class UsersController
     @RequestMapping("addUser")
     public Integer addUser(UsersBean bean) throws Exception
     {
-        int i = usersService.addUser(bean);
-        System.out.println(i + "=========================================================");
+        int i = 0;
+        if (bean.getId() != null && bean.getId() > 0)
+        {
+            i = usersService.editUsers(bean);
+        }
+        else
+        {
+            i = usersService.addUser(bean);
+        }
         return i;
     }
 

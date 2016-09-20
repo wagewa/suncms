@@ -18,6 +18,7 @@
 						{"menuid":"1","icon":"icon-sys","menuname":"系统管理",
 							"menus":[
 									{"menuid":"13","menuname":"用户管理","icon":"icon-users","url":"${pageContext.request.contextPath}/users/adminUserList"},
+									{"menuid":"14","menuname":"模型管理","icon":"icon-set","url":"demo2.html"},
 									{"menuid":"14","menuname":"角色管理","icon":"icon-role","url":"demo2.html"},
 									{"menuid":"15","menuname":"权限设置","icon":"icon-set","url":"demo.html"},
 									{"menuid":"16","menuname":"系统日志","icon":"icon-log","url":"demo1.html"}
