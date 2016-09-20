@@ -26,15 +26,28 @@
 //初始化左侧
 function InitLeftMenu() {
 	$("#nav").accordion({animate:false});
-
+	
     $.each(_menus.menus, function(i, n) {
 		var menulist ='';
 		menulist +='<ul>';
         $.each(n.menus, function(j, o) {
 			menulist += '<li><div><a ref="'+o.menuid+'" href="#" rel="' + o.url + '" ><span class="icon '+o.icon+'" >&nbsp;</span><span class="nav">' + o.menuname + '</span></a></div></li> ';
-        })
+        });
+        if(n.menuname == "模型列表"){
+        	$.ajax({
+	        	type:'POST',
+	        	url:sk.getRootPath()+'/modelManage/getModelList',
+	        	data:'page=1&rows=10&sort=id&order=asc',
+	        	async: false, 
+	        	success:function(msg){
+	        		var list = msg.rows;  
+	        		for(var i=0;i<list.length;i++){
+	        			menulist += '<li><div><a ref="11'+list[i].id+'" href="#" rel="ceshi.html" ><span class="icon icon-nav" >&nbsp;</span><span class="nav">' + list[i].name + '</span></a></div></li> ';
+	        		}
+	        	}});
+        }
 		menulist += '</ul>';
-
+        
 		$('#nav').accordion('add', {
             title: n.menuname,
             content: menulist,

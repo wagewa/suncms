@@ -16,6 +16,7 @@
 <script type="text/javascript">
 	var userList;
 $(function(){
+	sk.ns();
 	openUserForm();
 	openUserEditForm(); 
 	userList = $("#userList").datagrid({ 
@@ -171,6 +172,7 @@ function saveUser(){
 		    success:function(data){    
 		        if(data>0){
 		        	$.messager.alert("提示","新增用户成功!");
+		        	$("#userForm").form("clear"); 
 		        	$("#win").window("close");
 		        	userList.datagrid('load',{});
 		        }else{
@@ -194,6 +196,7 @@ function editUser(){
 		    success:function(data){    
 		        if(data>0){
 		        	$.messager.alert("提示","修改用户成功!");
+		        	$("#userEditForm").form("clear");
 		        	$("#win").window("close");
 		        	userList.datagrid('load',{});
 		        }else{

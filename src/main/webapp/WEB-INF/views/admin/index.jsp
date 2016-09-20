@@ -12,20 +12,20 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/default.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-easyui-1.5/skUtils.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-easyui-1.5/outlook2.js"></script>
 <script type="text/javascript"> 
 	 var _menus = {"menus":[  
 						{"menuid":"1","icon":"icon-sys","menuname":"系统管理",
 							"menus":[
 									{"menuid":"13","menuname":"用户管理","icon":"icon-users","url":"${pageContext.request.contextPath}/users/adminUserList"},
-									{"menuid":"14","menuname":"模型管理","icon":"icon-set","url":"demo2.html"},
+									{"menuid":"14","menuname":"模型管理","icon":"icon-set","url":"${pageContext.request.contextPath}/modelManage/index"},
 									{"menuid":"14","menuname":"角色管理","icon":"icon-role","url":"demo2.html"},
 									{"menuid":"15","menuname":"权限设置","icon":"icon-set","url":"demo.html"},
 									{"menuid":"16","menuname":"系统日志","icon":"icon-log","url":"demo1.html"}
-								]
-						},{"menuid":"8","icon":"icon-sys","menuname":"员工管理",
-							"menus":[{"menuid":"21","menuname":"员工列表","icon":"icon-nav","url":"demo.html"},
-									{"menuid":"22","menuname":"视频监控","icon":"icon-nav","url":"demo1.html"}
+								] 
+						},{"menuid":"8","icon":"icon-sys","menuname":"模型列表",
+							"menus":[
 								]
 						},{"menuid":"56","icon":"icon-sys","menuname":"部门管理",
 							"menus":[{"menuid":"31","menuname":"添加部门","icon":"icon-nav","url":"demo1.html"},
@@ -43,6 +43,7 @@
 								]
 						}
 				]};
+	 	
         //设置登录窗口
         function openPwd() {
             $('#w').window({

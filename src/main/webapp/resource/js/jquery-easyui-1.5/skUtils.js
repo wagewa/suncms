@@ -1,4 +1,5 @@
 var sk = $.extend({}, sk);
+
 $(function() {
 	sk.ceshi = function() {
 		alert("aaa");
@@ -18,6 +19,23 @@ $(function() {
 				pathName.substr(1).indexOf('/') + 1);
 		return (localhostPaht + projectName);
 	}
+
+	/**
+	 * 增加命名空间功能
+	 * 
+	 * 使用方法：sk.ns('jQuery.bbb.ccc','jQuery.eee.fff');
+	 */
+	sk.ns = function() {
+		var o = {}, d;
+		for (var i = 0; i < arguments.length; i++) {
+			d = arguments[i].split(".");
+			o = window[d[0]] = window[d[0]] || {};
+			for (var k = 0; k < d.slice(1).length; k++) {
+				o = o[d[k + 1]] = o[d[k + 1]] || {};
+			}
+		}
+		return o;
+	};
 
 	/**
 	 * 格式化时间(精确到天)

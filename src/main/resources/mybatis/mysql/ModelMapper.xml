@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sunkun.suncms.dao.IUsersDao">
+<mapper namespace="com.sunkun.suncms.dao.IModelDao">
 	<resultMap id="BaseResultMap" type="com.sunkun.suncms.beans.ModelBean">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
@@ -15,37 +15,23 @@
 	</sql>
 	
 	<insert id="insertSelective"  parameterType="com.sunkun.suncms.beans.ModelBean">
-		INSERT INTO sk_model(email, userName, password, sex, birthday, rankPoints,
-		lastTime, lastIp, alias, officePhone, 
-		isValidated) values(
-			#{email},
-			#{userName},
-			#{password},
-			#{sex},
-			#{birthday},
-			#{rankPoints},
-			#{lastTime},
-			#{lastIp},
-			#{alias},
-			#{officePhone},
-			#{isValidated}
+		INSERT INTO sk_model(name, tableName, listFields, introduce, createTime) values(
+			#{name},
+			#{tableName},
+			#{listFields},
+			#{introduce},
+			#{createTime}
 		)
 	</insert>
 	
 	<update id="updateByPrimaryKeySelective"  parameterType="com.sunkun.suncms.beans.ModelBean">
 		UPDATE sk_model u SET 
-			u.email=#{email},
-			u.userName=#{userName},
-			u.password=#{password},
-			u.sex=#{sex},
-			u.birthday=#{birthday},
-			u.rankPoints=#{rankPoints},
-			u.lastTime=#{lastTime},
-			u.lastIp=#{lastIp},
-			u.alias=#{alias},
-			u.officePhone=#{officePhone},
-			u.isValidated=#{isValidated}
-		where id=#{id,jdbcType=INTEGER}
+			u.name=#{name},
+			u.tableName=#{tableName},
+			u.listFields=#{listFields},
+			u.introduce=#{introduce},
+			u.createTime=#{createTime},
+			where u.id=#{id,jdbcType=INTEGER}
 	</update>
 	
 	<!--
@@ -75,8 +61,8 @@
 	<select id="getAllCount" resultType="int" parameterType="map">
 		SELECT COUNT(id) FROM sk_model 
 		<where>
-			<if test="userName != null">
-				userName like CONCAT('%',#{userName},'%') 
+			<if test="name != null">
+				name like CONCAT('%',#{name},'%') 
 			</if>
 		</where>
 	</select>
@@ -86,8 +72,8 @@
 		<include refid="Base_Column_List" />
 		FROM sk_model 
 		<where>
-			<if test="userName != null">
-				userName like CONCAT('%',#{userName},'%') 
+			<if test="name != null">
+				name like CONCAT('%',#{name},'%') 
 			</if>
 		</where>
 		<if test="sort != null"> 
