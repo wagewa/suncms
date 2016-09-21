@@ -26,50 +26,69 @@ import com.sunkun.suncms.service.IModelService;
  */
 @Controller
 @RequestMapping("modelManage")
-public class ModelManageController {
+public class ModelManageController
+{
 
-	@Resource
-	private IModelService modelService;
+    @Resource
+    private IModelService modelService;
 
-	@RequestMapping("index")
-	public String index() {
+    @RequestMapping("index")
+    public String index()
+    {
 
-		return "admin/model/model";
-	}
+        return "admin/model/model";
+    }
 
-	@ResponseBody
-	@RequestMapping("getModelList")
-	public PageResults<ModelBean> getModelList(int page, int rows, String sort, String order) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("pageIndex", (page - 1) * rows);
-		map.put("pageSize", rows);
-		map.put("sort", sort);
-		map.put("order", order);
-		PageResults pageResults = modelService.getAllModel(map);
-		return pageResults;
-	}
+    @ResponseBody
+    @RequestMapping("getModelList")
+    public PageResults<ModelBean> getModelList(int page , int rows , String sort , String order) throws Exception
+    {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("pageIndex", (page - 1) * rows);
+        map.put("pageSize", rows);
+        map.put("sort", sort);
+        map.put("order", order);
+        PageResults pageResults = modelService.getAllModel(map);
+        return pageResults;
+    }
 
-	@ResponseBody
-	@RequestMapping("saveModel")
-	public int saveModel(ModelBean bean) throws Exception {
-		bean.setCreateTime(new Date());
-		int i = 0;
-		if (bean.getId() != null && bean.getId() > 0)
-			i = modelService.editModel(bean);
-		else
-			i = modelService.addModel(bean);
-		return i;
-	}
+    @ResponseBody
+    @RequestMapping("saveModel")
+    public int saveModel(ModelBean bean) throws Exception
+    {
+        bean.setCreateTime(new Date());
+        int i = 0;
+        if (bean.getId() != null && bean.getId() > 0)
+        {
+            i = modelService.editModel(bean);
+        }
+        else
+        {
+            i = modelService.addModel(bean);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("tableName", "sk_" + bean.getTableName());
+            modelService.createTables(map);
+        }
 
-	@ResponseBody
-	@RequestMapping("delModel")
-	public int delModel(String ids) throws Exception {
-		String[] strs = ids.split(",");
-		List<Integer> list = new ArrayList<Integer>();
-		for (String s : strs) {
-			list.add(Integer.parseInt(s));
-		}
-		int i = modelService.delModel(list);
-		return i;
-	}
+        return i;
+    }
+
+    @ResponseBody
+    @RequestMapping("delModel")
+    public int delModel(String ids) throws Exception
+    {
+        String[] strs = ids.split(",");
+        List<Integer> list = new ArrayList<Integer>();
+        for (String s : strs)
+        {
+            list.add(Integer.parseInt(s));
+            ModelBean bean = modelService.getModel(Integer.parseInt(s));
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("tableName", "sk_" + bean.getTableName());
+            modelService.delTables(map);
+        }
+        int i = modelService.delModel(list);
+        return i;
+    }
+    
 }

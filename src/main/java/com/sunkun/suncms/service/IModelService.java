@@ -17,4 +17,9 @@ public interface IModelService
 
     PageResults<ModelBean> getAllModel(Map<String, Object> map) throws Exception;
 
+    int createTables(Map<String, Object> map);
+
+    int delTables(Map<String, Object> map);
+
+    ModelBean getModel(int id) throws Exception;
 }

@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sunkun.suncms.dao.IModelDao">
-	<resultMap id="BaseResultMap" type="com.sunkun.suncms.beans.ModelBean">
+<mapper namespace="com.sunkun.suncms.dao.IFieldDao">
+	<resultMap id="BaseResultMap" type="com.sunkun.suncms.beans.FieldBean">
 		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="modelId" property="modelId" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
-		<result column="tableName" property="tableName" jdbcType="VARCHAR" />
-		<result column="listFields" property="listFields" jdbcType="VARCHAR" />
-		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+		<result column="alias" property="alias" jdbcType="VARCHAR" />
+		<result column="isRequired" property="isRequired" jdbcType="INTEGER" />
+		<result column="errorInfo" property="errorInfo" jdbcType="VARCHAR" />
 		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id, name, tableName, listFields, introduce, createTime
+		id, modelId, type, name, alias, isRequired ,errorInfo ,createTime
 	</sql>
 
-	<insert id="insertSelective" parameterType="com.sunkun.suncms.beans.ModelBean">
+	<insert id="insertSelective" parameterType="com.sunkun.suncms.beans.FieldBean">
 		INSERT INTO
-		sk_model(name, tableName, listFields, introduce, createTime) values(
+		sk_field(modelId, type, name, alias, isRequired, errorInfo, createTime) values(
+		#{modelId},
+		#{type},
 		#{name},
-		#{tableName},
-		#{listFields},
-		#{introduce},
+		#{alias},
+		#{isRequired},
+		#{errorInfo},
 		#{createTime}
 		)
 	</insert>
 
-	<update id="updateByPrimaryKeySelective" parameterType="com.sunkun.suncms.beans.ModelBean">
+	<update id="updateByPrimaryKeySelective" parameterType="com.sunkun.suncms.beans.FieldBean">
 		UPDATE
-		sk_model u SET
+		sk_field u SET
+		u.modelId=#{modelId},
+		u.type=#{type},
 		u.name=#{name},
-		u.tableName=#{tableName},
-		u.listFields=#{listFields},
-		u.introduce=#{introduce},
+		u.alias=#{alias},
+		u.isRequired=#{isRequired},
+		u.errorInfo=#{errorInfo},
 		u.createTime=#{createTime},
 		where u.id=#{id,jdbcType=INTEGER}
 	</update>
 
 	<!-- <delete id="deleteByIds" parameterType="java.util.List"> <foreach close="" 
 		collection="list" index="index" item="item" open="" separator=";"> DELETE 
-		FROM sk_model WHERE id=#{item.id,jdbcType=INTEGER} </foreach> </delete> -->
+		FROM sk_field WHERE id=#{item.id,jdbcType=INTEGER} </foreach> </delete> -->
 
 
 	<delete id="deleteByIds" parameterType="java.util.List">
-		DELETE FROM sk_model WHERE id IN
+		DELETE FROM sk_field WHERE id IN
 		<foreach item="item" index="index" collection="list" open="("
 			separator="," close=")">
 			#{item}
@@ -53,12 +59,12 @@
 
 	<delete id="deleteByPrimaryKey" parameterType="int">
 		DELETE FROM
-		sk_model
+		sk_field
 		WHERE id=#{id,jdbcType=INTEGER}
 	</delete>
 
 	<select id="getAllCount" resultType="int" parameterType="map">
-		SELECT COUNT(id) FROM sk_model
+		SELECT COUNT(id) FROM sk_field
 		<where>
 			<if test="name != null">
 				name like CONCAT('%',#{name},'%')
@@ -69,7 +75,7 @@
 	<select id="getAllList" resultMap="BaseResultMap" parameterType="map">
 		SELECT
 		<include refid="Base_Column_List" />
-		FROM sk_model
+		FROM sk_field
 		<where>
 			<if test="name != null">
 				name like CONCAT('%',#{name},'%')
@@ -87,19 +93,10 @@
 		parameterType="int">
 		SELECT
 		<include refid="Base_Column_List"></include>
-		FROM sk_model
+		FROM sk_field
 		WHERE id=#{id,jdbcType=INTEGER}
 	</select>
 
 
-	<!--建表 -->
-	<insert id="createModelTables" parameterType="map">
-		CREATE TABLE
-		${tableName} (id int not null primary key);
-	</insert>
-
-	<delete id="delModelTables" parameterType="map">
-		DROP TABLE IF EXISTS
-		${tableName};
-	</delete>
+	
 </mapper>

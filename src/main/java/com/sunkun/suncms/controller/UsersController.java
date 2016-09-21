@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sunkun.suncms.beans.PageResults;
 import com.sunkun.suncms.beans.UsersBean;
 import com.sunkun.suncms.service.IUsersService;
+import com.sunkun.suncms.utils.SKutils;
 
 /**
  * 
@@ -79,12 +80,7 @@ public class UsersController
     @RequestMapping("delUsers")
     public Integer delUsers(String ids) throws Exception
     {
-        String[] strs = ids.split(",");
-        List<Integer> list = new ArrayList<Integer>();
-        for (String s : strs)
-        {
-            list.add(Integer.parseInt(s));
-        }
+        List<Integer> list = SKutils.StringToList(ids);
         int i = usersService.delUsers(list);
         return i;
     }

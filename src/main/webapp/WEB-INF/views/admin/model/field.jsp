@@ -1,34 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+    pageEncoding="utf-8"%>
 <script src="${pageContext.request.contextPath}/resource/js/jquery-1.8.3.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-easyui-1.5/jquery.easyui.min.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/js/jquery-easyui-1.5/themes/default/easyui.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/js/jquery-easyui-1.5/themes/icon.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-easyui-1.5/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/jquery-easyui-1.5/skUtils.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/model/model.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/model/field.js"></script>
 <style>
 	#win table tr{ line-height: 30px;} 
 </style>
-<<script type="text/javascript">
-<!--
-
-//-->
-
-</script>
 <div class="easyui-layout" fit="true" border="false">
 	<div data-options="region:'center'">
-		<table id="modelList"></table>  
+		<table id="fieldList"></table>  
 	</div>
 </div>
 
 <div id="win" class="easyui-window"  style="width:600px;height:400px"   
         data-options="iconCls:'icon-save',modal:true,minimizable:false">   
-    <form method="post" id="modelForm">
+    <form method="post" id="feildForm">
     	<table style="width: 550px; margin-left: 30px;">
 	    	<tr>
-	    		<td style="text-align: right;">模型名称:</td>
-	    		<td style="text-align: left;"><input name="name" type="text" class="easyui-validatebox" data-options="required:true" /></td>
+	    		<td style="text-align: right;">类型:</td>
+	    		<td style="text-align: left;">
+	    			<select name="type">
+	    				<option value="text">单行文本</option>
+	    				<option value="textarea">多行文本</option>
+	    			</select>
+	    		</td>
 	    	</tr>
 	    	<tr>
 	    		<td style="text-align: right;">模型表名:</td>
@@ -49,8 +48,7 @@
     </form>
 </div>
  
-<div id="modelMenu" class="easyui-menu" style="width:150px;">
-	<div id="um-tabfield" class="icon-edit" onclick="sk.admin.model.fieldUpdate();">字段</div>
+<div id="fieldMenu" class="easyui-menu" style="width:150px;">
 	<div id="um-tabupdate" class="icon-edit">修改</div>
-	<div id="um-tabdel" class="icon-remove" onclick="sk.admin.model.delModel();">删除</div>
+	<div id="um-tabdel" class="icon-remove" onclick="sk.admin.model.delfelid();">删除</div>
 </div>

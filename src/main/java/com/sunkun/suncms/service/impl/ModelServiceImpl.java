@@ -48,4 +48,42 @@ public class ModelServiceImpl implements IModelService
         return pageResults;
     }
 
+    @Override
+    public int createTables(Map<String, Object> map)
+    {
+        int i = 0;
+        try
+        {
+            modelDao.createModelTables(map);
+            i = 1;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    @Override
+    public int delTables(Map<String, Object> map)
+    {
+        int i = 0;
+        try
+        {
+            modelDao.delModelTables(map);
+            i = 1;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    @Override
+    public ModelBean getModel(int id) throws Exception
+    {
+        return modelDao.selectByPrimaryKey(id);
+    }
+
 }

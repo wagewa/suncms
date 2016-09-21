@@ -85,6 +85,8 @@ $(function(){
 		}
 	});
 	
+	
+	
 	/**
 	 * 保存
 	 */
@@ -135,8 +137,19 @@ $(function(){
 			        	}});
 			    }
 			});  
-		}else{
+		}else{ 
 			$.messager.alert("警告","请选择需要删除的记录!");
 		}
+	}
+	
+	sk.admin.model.fieldUpdate = function(){ 
+		var rows = sk.admin.model.modelList.datagrid("getSelections"); 
+		window.parent.addTab(rows[0].name,"dome1.html",'icon icon-seticon-role'); 
+	}
+	
+	sk.admin.model.createFrame = function(url)
+	{
+		var s = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
+		return s;
 	}
 });
