@@ -1,6 +1,7 @@
 $(function() {
 	sk.ns("sk.admin.field");
-	$("#win").window({
+	sk.admin.field.modelId = $("input[name='modelId']").val();
+	$("#win").window({ 
 		 title: '字段信息',
 	     modal: true,
 	     shadow: true,
@@ -18,6 +19,9 @@ $(function() {
 		sortOrder : 'asc',
 		pageList : [ 10, 20, 30, 40 ],
 		fitColumns : true,
+		queryParams : {
+			modelId : sk.admin.field.modelId
+		},
 		columns : [ [ {
 			field : 'id',
 			title : '编号',
@@ -67,7 +71,7 @@ $(function() {
 			text : '删除',
 			iconCls : 'icon-remove',
 			handler : function() {
-				sk.admin.field.delfield();
+				sk.admin.field.del();
 			}
 		} ],
 		onRowContextMenu : function(e, rowIndex, rowData) {
@@ -91,4 +95,53 @@ $(function() {
 			e.preventDefault();
 		}
 	});
+	
+	sk.admin.field.save = function(){
+		if($("#fieldForm").form("validate")){ 
+			$("#fieldForm").form('submit', {
+			    url:sk.getRootPath()+"/field/saveField",
+			    onSubmit: function(param){    
+			    },    
+			    success:function(data){    
+			        if(data>0){
+			        	$.messager.alert("提示","新字段成功!");
+			        	$("#fieldForm").form("clear"); 
+			        	$("#win").window("close");
+			        	sk.admin.field.fieldList.datagrid('load',{});
+			        }else{
+			        	$.messager.alert("警告","系统忙，请稍后再试!");
+			        }
+			    }    
+			});  
+		}
+	}
+	
+	sk.admin.field.del = function(){
+		var rows = sk.admin.field.fieldList.datagrid("getSelections");
+		if(rows.length>0){
+			$.messager.confirm('确认','您确认想要删除记录吗？',function(r){    
+			    if (r){    
+			        var row = new Array();
+			        $(rows).each(function(i,e){
+			        	row[i] = rows[i].id;
+			        });
+			        //console.info(row.join(","));
+			        $.ajax({
+			        	type:'POST',
+			        	url:sk.getRootPath()+'/field/delField',
+			        	data:'ids='+row.join(","),
+			        	success:function(msg){
+			        		if(msg > 0){
+			        			$.messager.alert("提示","删除成功!");
+			        			sk.admin.field.fieldList.datagrid("load");
+			        		}else{
+			        			$.messager.alert("错误","系统忙，请稍后再试!");
+			        		}
+			        	}});
+			    }
+			});  
+		}else{ 
+			$.messager.alert("警告","请选择需要删除的记录!");
+		}
+	}
 });

@@ -1,7 +1,12 @@
 
 package com.sunkun.suncms.dao;
 
-public interface IFieldDao extends IBaseDao
-{
+import java.util.Map;
+
+public interface IFieldDao extends IBaseDao {
+
+	int insertField(Map<String, Object> map) throws Exception;
+
+	int deleteFieldformodel(Map<String, Object> map) throws Exception;
 
 }

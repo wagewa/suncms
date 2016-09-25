@@ -69,16 +69,22 @@
 			<if test="name != null">
 				name like CONCAT('%',#{name},'%')
 			</if>
+			<if test="modelId != null">
+				and modelId = #{modelId}
+			</if>
 		</where>
 	</select>
 
-	<select id="getAllList" resultMap="BaseResultMap" parameterType="map">
+	<select id="getAllList" resultMap="BaseResultMap"  parameterType="map">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM sk_field
 		<where>
 			<if test="name != null">
 				name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="modelId != null">
+				and modelId = #{modelId}
 			</if>
 		</where>
 		<if test="sort != null">
@@ -96,7 +102,20 @@
 		FROM sk_field
 		WHERE id=#{id,jdbcType=INTEGER}
 	</select>
-
+	
+	<update id="insertField" parameterType="map">
+		alter table ${tableName} add ${name} 
+		<if test="type eq 'text'">
+			varchar(60) NOT NULL;
+		</if>
+		<if test="type eq 'textarea'">
+			varchar(255) NOT NULL;
+		</if>
+	</update>
+	
+	<update id="deleteFieldformodel" parameterType="map">
+		ALTER TABLE ${tableName} DROP ${name};
+	</update>
 
 	
 </mapper>

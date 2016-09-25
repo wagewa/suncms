@@ -10,7 +10,7 @@
 <style>
 	#win table tr{ line-height: 30px;} 
 </style>
-<<script type="text/javascript">
+<script type="text/javascript">
 <!--
 
 //-->

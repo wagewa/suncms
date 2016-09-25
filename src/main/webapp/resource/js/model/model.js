@@ -142,9 +142,11 @@ $(function(){
 		}
 	}
 	
-	sk.admin.model.fieldUpdate = function(){ 
+	sk.admin.model.fieldUpdate = function(){
+		// alert(rows[0].id);
 		var rows = sk.admin.model.modelList.datagrid("getSelections"); 
-		window.parent.addTab(rows[0].name,"dome1.html",'icon icon-seticon-role'); 
+		$('#modelMenu').menu('hide'); 
+		window.parent.addTab(rows[0].name,"/suncms/field/index?modelId="+rows[0].id,'icon icon-seticon-role'); 
 	}
 	
 	sk.admin.model.createFrame = function(url)

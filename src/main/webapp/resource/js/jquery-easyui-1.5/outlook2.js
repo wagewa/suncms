@@ -40,9 +40,9 @@ function InitLeftMenu() {
 	        	data:'page=1&rows=10&sort=id&order=asc',
 	        	async: false, 
 	        	success:function(msg){
-	        		var list = msg.rows;  
+	        		var list = msg.rows; 
 	        		for(var i=0;i<list.length;i++){
-	        			menulist += '<li><div><a ref="11'+list[i].id+'" href="#" rel="ceshi.html" ><span class="icon icon-nav" >&nbsp;</span><span class="nav">' + list[i].name + '</span></a></div></li> ';
+	        			menulist += '<li><div><a ref="11'+list[i].id+'" href="#" rel="/suncms/omnipotent/index?modelId='+list[i].id+'" ><span class="icon icon-nav" >&nbsp;</span><span class="nav">' + list[i].name + '</span></a></div></li> ';
 	        		}
 	        	}});
         }
